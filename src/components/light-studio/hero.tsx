@@ -119,12 +119,38 @@ export function Hero() {
       }
     };
 
+    // Phones get the 9:16 crop, wider screens the full 16:9 film. Re-pick if the window
+    // crosses the breakpoint (rotating a tablet, resizing a browser) so a wide screen never
+    // ends up stretching the narrow crop.
+    const narrowMq = window.matchMedia("(max-width: 768px)");
+    const pickSrc = () => (narrowMq.matches ? VIDEO_MOBILE : VIDEO_DESKTOP);
+    const onBreakpoint = () => {
+      if (lowData || blobUrl || (settled && !live)) return;
+      const want = new URL(pickSrc(), window.location.href).href;
+      if (video.currentSrc === want) return;
+      const at = shown;
+      video.src = want;
+      video.load();
+      video.addEventListener(
+        "loadeddata",
+        () => {
+          duration = video.duration;
+          try {
+            video.currentTime = at;
+          } catch {
+            /* the frame loop retries */
+          }
+        },
+        { once: true },
+      );
+    };
+
     if (!lowData) {
-      const narrow = window.matchMedia("(max-width: 768px)").matches;
       video.addEventListener("loadeddata", probe);
       video.addEventListener("error", fail);
-      video.src = narrow ? VIDEO_MOBILE : VIDEO_DESKTOP;
+      video.src = pickSrc();
       video.load();
+      narrowMq.addEventListener("change", onBreakpoint);
     }
 
     /* ---------- Cursor parallax + spotlight ---------- */
@@ -203,6 +229,7 @@ export function Hero() {
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      narrowMq.removeEventListener("change", onBreakpoint);
       wrap.removeEventListener("pointermove", onPointer);
       wrap.removeEventListener("pointerleave", onLeave);
       video.removeEventListener("loadeddata", probe);

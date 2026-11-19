@@ -5,7 +5,6 @@ import { BRAND } from "@/lib/light-studio-data";
 const NAV_LINKS = [
   { label: "Collections", href: "#collections" },
   { label: "About", href: "#about" },
-  { label: "Products", href: "#products" },
   { label: "Gallery", href: "#gallery" },
   { label: "Visit Us", href: "#visit" },
   { label: "FAQ", href: "#faq" },

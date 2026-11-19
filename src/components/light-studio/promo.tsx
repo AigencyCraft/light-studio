@@ -7,6 +7,7 @@ const OFFERS = [
     description:
       "Explore our newest range of gold-finish chandeliers and pendants — now on display at the Raipur showroom.",
     cta: "View Collection",
+    href: "#collections",
   },
   {
     tag: "Showroom Offer",
@@ -14,6 +15,7 @@ const OFFERS = [
     description:
       "Book a visit this month and receive personalised lighting guidance for your entire home — at no cost.",
     cta: "Book a Visit",
+    href: "#enquire",
   },
 ];
 
@@ -52,7 +54,7 @@ export function Promo() {
               </h3>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-ivory/70">{o.description}</p>
               <a
-                href="#enquire"
+                href={o.href}
                 className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-gold-soft"
               >
                 {o.cta}

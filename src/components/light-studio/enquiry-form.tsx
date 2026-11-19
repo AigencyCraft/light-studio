@@ -1,8 +1,13 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { trackEnquiry } from "@/lib/enquiry-tracking";
+import { ENQUIRE_EVENT, type EnquireDetail } from "@/lib/light-studio-data";
 
 const PRODUCT_OPTIONS = [
+  "Art Glass Installations",
+  "Sky Lights",
+  "Cement Block Lighting",
+  "Garden Lights",
   "Chandeliers",
   "Pendant Lights",
   "Ceiling Lights",
@@ -29,6 +34,25 @@ export function EnquiryForm() {
     message: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+
+  // Catalogue "Enquire" buttons pre-fill the interest and mention the product in the message
+  useEffect(() => {
+    const onEnquire = (e: Event) => {
+      const { product, interest } = (e as CustomEvent<EnquireDetail>).detail;
+      setStatus("idle");
+      setForm((f) => ({
+        ...f,
+        productInterest: PRODUCT_OPTIONS.includes(interest) ? interest : f.productInterest,
+        message: `I'm interested in the ${product}.`,
+      }));
+      window.setTimeout(
+        () => document.getElementById("ls-name")?.focus({ preventScroll: true }),
+        600,
+      );
+    };
+    window.addEventListener(ENQUIRE_EVENT, onEnquire);
+    return () => window.removeEventListener(ENQUIRE_EVENT, onEnquire);
+  }, []);
 
   const validate = () => {
     const e: FormErrors = {};

@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/light-studio/navbar";
 import { Hero } from "@/components/light-studio/hero";
-import { Collections } from "@/components/light-studio/collections";
 import { About } from "@/components/light-studio/about";
 import { WhyChooseUs } from "@/components/light-studio/why-choose-us";
-import { FeaturedProducts } from "@/components/light-studio/featured-products";
+import { Catalogue } from "@/components/light-studio/catalogue";
 import { Gallery } from "@/components/light-studio/gallery";
 import { Promo } from "@/components/light-studio/promo";
 import { Testimonials } from "@/components/light-studio/testimonials";
@@ -49,10 +48,9 @@ function Index() {
       <Navbar />
       <main>
         <Hero />
-        <Collections />
+        <Catalogue />
         <About />
         <WhyChooseUs />
-        <FeaturedProducts />
         <Gallery />
         <Promo />
         <Testimonials />
