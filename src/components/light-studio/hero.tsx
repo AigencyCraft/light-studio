@@ -17,9 +17,11 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 // Bump FILM_VERSION whenever the clip files are replaced so browsers don't serve a cached copy.
 const FILM_VERSION = "2";
-const VIDEO_DESKTOP = `/video/hero-desktop.mp4?v=${FILM_VERSION}`;
-const VIDEO_MOBILE = `/video/hero-mobile.mp4?v=${FILM_VERSION}`; // 9:16 centre crop
-const POSTER = `/video/hero-poster.jpg?v=${FILM_VERSION}`;
+// BASE_URL is "/" normally and "/<repo>/" on GitHub Pages
+const BASE = import.meta.env.BASE_URL;
+const VIDEO_DESKTOP = `${BASE}video/hero-desktop.mp4?v=${FILM_VERSION}`;
+const VIDEO_MOBILE = `${BASE}video/hero-mobile.mp4?v=${FILM_VERSION}`; // 9:16 centre crop
+const POSTER = `${BASE}video/hero-poster.jpg?v=${FILM_VERSION}`;
 
 const FILM = {
   span: 2.2, // extra scroll the clip takes, in viewport heights. Higher = slower film

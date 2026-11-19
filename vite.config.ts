@@ -7,6 +7,10 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@leadconnector/vite-tanstack-config";
 
+// Static GitHub Pages build (`npm run build:pages`): served from /<repo>/ and prerendered to
+// plain HTML. Normal builds (AI Studio / Cloudflare) are unaffected.
+const PAGES_BASE = process.env["PAGES_BASE"]; // e.g. "/light-studio/"
+
 export default defineConfig({
   // Browser errors stay in the trusted parent-frame console-log flow;
   // do not expose the bridge collector on the public sandbox tunnel.
@@ -17,5 +21,7 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    ...(PAGES_BASE ? { prerender: { enabled: true, crawlLinks: false } } : {}),
   },
+  ...(PAGES_BASE ? { nitro: false, vite: { base: PAGES_BASE } } : {}),
 });
